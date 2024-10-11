@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { register } from './usersController';
+import { getUserByEmail, register } from './usersController';
 
 export const usersRoutes = Router();
 
 usersRoutes.post('/register', register);
+usersRoutes.post('/get-user', getUserByEmail);

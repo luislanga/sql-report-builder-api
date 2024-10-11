@@ -6,11 +6,19 @@ export class PrismaUsersRepository implements usersRepository {
   async create(data: Prisma.UserCreateInput): Promise<User> {
     const user = await prisma.user.create({ data });
 
-    return user
+    return user;
   }
+
   findByEmail(email: string): Promise<User | null> {
-    throw new Error("Method not implemented.");
+    const user = prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return user;
   }
+  
   findById(id: string): Promise<User | null> {
     throw new Error("Method not implemented.");
   }
