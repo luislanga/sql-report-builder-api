@@ -3,16 +3,16 @@ import { makeRegisterUseCase } from "../../../useCases/factories/makeRegisterUse
 import { makeGetUserByEmailUseCase } from "../../../useCases/factories/makeGetUserByEmailUseCase";
 
 const fakeUser = {
-  email: "johndoe2@example.com",
+  email: "johndoe4@example.com",
   password: "fakehashedpassword123",
 };
 
 export async function register(req: Request, res: Response): Promise<Response> {
   const registerUseCase = makeRegisterUseCase();
 
-  await registerUseCase.execute(fakeUser);
+  const { user } = await registerUseCase.execute(fakeUser);
 
-  return res.status(201).json(fakeUser);
+  return res.status(201).json(user);
 }
 
 export async function getUserByEmail(
