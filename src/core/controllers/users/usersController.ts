@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { makeRegisterUseCase } from "../../useCases/factories/makeRegisterUseCase";
+import { makeRegisterUseCase } from "../../useCases/factories/makeRegisterUserUseCase";
 import { makeGetUserByEmailUseCase } from "../../useCases/factories/makeGetUserByEmailUseCase";
 import { z } from "zod";
 
