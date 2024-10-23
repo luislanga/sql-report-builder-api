@@ -14,9 +14,26 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  password String
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  password    String
+  connections Connection[] @relation("UserConnections")
 
   @@map("app_user")
+}
+
+model Connection {
+  id               Int    @id @default(autoincrement())
+  type             String // 'postgres', 'mysql', 'oracle'
+  host             String //  MySQL e PostgreSQL
+  port             Int
+  user             String
+  password         String
+  database         String // MySQL e PostgreSQL
+  connectionString String // Oracle
+  userId           Int
+
+  app_user User @relation("UserConnections", fields: [userId], references: [id])
+
+  @@map("connection")
 }
