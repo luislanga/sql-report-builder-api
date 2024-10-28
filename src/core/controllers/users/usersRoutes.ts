@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getUserByEmail, register } from './usersController';
+import { authMiddleware } from '../../middlewares/authMiddleware';
 
 export const usersRoutes = Router();
 
