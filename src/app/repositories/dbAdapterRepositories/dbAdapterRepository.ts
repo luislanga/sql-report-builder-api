@@ -1,3 +1,3 @@
 export interface dbAdapterRepository {
-    query(query: string): Promise<any>;
+    query(query: string, dbConfig: any): Promise<any>;
 }

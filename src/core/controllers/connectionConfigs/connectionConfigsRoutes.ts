@@ -6,4 +6,4 @@ import { authMiddleware } from '../../middlewares/authMiddleware';
 export const connectionConfigsRoutes = Router();
 
 connectionConfigsRoutes.post('/create', authMiddleware, createConnectionConfig);
-// usersRoutes.post('/get-user', getUserByEmail);
+connectionConfigsRoutes.post('/get-connection', authMiddleware, );

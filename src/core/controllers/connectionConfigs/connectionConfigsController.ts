@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { makeCreateConnectionConfigUseCase } from "../../useCases/factories/makeCreateConnectionConfigUseCase";
+import { makeGetConnectionConfigsUseCase } from "../../useCases/factories/makeGetConnectionConfigsUseCase";
+
 export async function createConnectionConfig(
   req: Request,
   res: Response
@@ -25,6 +27,16 @@ export async function createConnectionConfig(
       clientDbConfig
     );
     return res.status(201).json(connection);
+  } catch (error) {
+    throw new Error("Algo deu errado");
+  }
+}
+
+export async function getConnectionConfigs(req: Request, res: Response): Promise<Response> {
+  try {
+    const connectionConfigsRepository = makeGetConnectionConfigsUseCase();
+    const connections = await connectionConfigsRepository.execute(req.user?.id);
+    return res.status(200).json(connections);
   } catch (error) {
     throw new Error("Algo deu errado");
   }

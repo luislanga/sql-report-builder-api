@@ -30,10 +30,10 @@ class PgDbConnection {
     return PgDbConnection.instance;
   }
 
-  public async pgQuery(text: string, params?: any[]): Promise<any> {
+  public async pgQuery(text: string): Promise<any> {
     const client = await this.pool.connect();
     try {
-      const res = await client.query(text, params);
+      const res = await client.query(text);
       return res;
     } finally {
       client.release();
