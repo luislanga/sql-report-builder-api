@@ -24,14 +24,12 @@ export async function getUserByEmail(
   req: Request,
   res: Response
 ): Promise<Response> {
-  const fakeUser = {
-    email: "teste123@email.com",
-    password: "asdfasdf324",
-  };
+
+  const { email } = req.body;
 
   const getUserByEmailUseCase = makeGetUserByEmailUseCase();
 
-  const { user } = await getUserByEmailUseCase.execute(fakeUser.email);
+  const { user } = await getUserByEmailUseCase.execute(email);
 
   return res.status(200).json(user);
 }

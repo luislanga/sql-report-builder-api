@@ -6,10 +6,10 @@ interface RegisterUseCaseResponse {
 }
 
 export class GetUserByEmailUseCase {
-  constructor(private userReporsitory: usersRepository) {}
+  constructor(private userRepository: usersRepository) {}
 
   async execute(email: string): Promise<RegisterUseCaseResponse> {
-    const user = await this.userReporsitory.findByEmail(email);
+    const user = await this.userRepository.findByEmail(email);
 
     return { user };
   }

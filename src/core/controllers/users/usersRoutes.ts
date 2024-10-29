@@ -5,4 +5,4 @@ import { authMiddleware } from '../../middlewares/authMiddleware';
 export const usersRoutes = Router();
 
 usersRoutes.post('/register', register);
-usersRoutes.post('/get-user', getUserByEmail);
+usersRoutes.post('/get-user', authMiddleware, getUserByEmail);

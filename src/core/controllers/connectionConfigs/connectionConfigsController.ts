@@ -1,24 +1,25 @@
 import { Request, Response } from "express";
 import { makeCreateConnectionConfigUseCase } from "../../useCases/factories/makeCreateConnectionConfigUseCase";
-
-const app_user = {
-  connect: {
-    id: 1
-  }
-};
-
-const clientDbConfig = {
-  type: "postgres",
-  host: "localhost",
-  port: 5432,
-  user: "main",
-  password: "main",
-  database: "sql-report-builder-api",
-  app_user,
-};
-
-export async function createConnectionConfig(req: Request, res: Response): Promise<Response> {
+export async function createConnectionConfig(
+  req: Request,
+  res: Response
+): Promise<Response> {
   try {
+    const app_user = {
+      connect: {
+        id: req.user?.id,
+      },
+    };
+    const {type, host, port, user, password, database} = req.body
+    const clientDbConfig = {
+      type,
+      host,
+      port,
+      user,
+      password,
+      database,
+      app_user,
+    };
     const createConnectionConfigUseCase = makeCreateConnectionConfigUseCase();
     const connection = await createConnectionConfigUseCase.execute(
       clientDbConfig
@@ -28,19 +29,3 @@ export async function createConnectionConfig(req: Request, res: Response): Promi
     throw new Error("Algo deu errado");
   }
 }
-
-// export async function getUserByEmail(
-//   req: Request,
-//   res: Response
-// ): Promise<Response> {
-//   const fakeUser = {
-//     email: "teste123@email.com",
-//     password: "asdfasdf324",
-//   };
-
-//   const getUserByEmailUseCase = makeGetUserByEmailUseCase();
-
-//   const { user } = await getUserByEmailUseCase.execute(fakeUser.email);
-
-//   return res.status(200).json(user);
-// }
