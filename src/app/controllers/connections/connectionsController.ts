@@ -27,6 +27,8 @@ export async function queryDb(req: Request, res: Response): Promise<Response> {
   }
 
   const dbConfig = {
+    id: connection.id,
+    type: connection.type,
     host: connection.host,
     port: connection.port,
     database: connection.database,
@@ -44,7 +46,7 @@ export async function queryDb(req: Request, res: Response): Promise<Response> {
       fields: queryResult.fields.map((field: QueryField) => field.name),
       rows: queryResult.rows,
     };
-    return res.status(201).json(results);
+    return res.status(200).json(results);
   } catch {
     throw new Error("Algo deu errado");
   }

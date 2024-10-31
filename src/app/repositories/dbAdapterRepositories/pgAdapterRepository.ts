@@ -1,33 +1,22 @@
-import { Pool } from 'pg';
-import { dbAdapterRepository } from './dbAdapterRepository';
-
-const clientDbConfig = {
-  id: "client1",
-  type: "postgres",
-  host: "localhost",
-  port: 5432,
-  user: "main",
-  password: "main",
-  database: "sql-report-builder-api",
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-};
+import { Pool } from "pg";
+import { dbAdapterRepository } from "./dbAdapterRepository";
 
 class PgDbConnection {
-  private static instance: PgDbConnection;
+  private static instances: Map<string, PgDbConnection> = new Map();
   private pool: Pool;
 
-  private constructor() {
-    this.pool = new Pool(clientDbConfig);
-    console.log('!!! New POSTGRES connection instance created !!!')
+  private constructor(config: any) {
+    this.pool = new Pool(config);
+    console.log(
+      `\x1b[95m !!! New POSTGRES connection instance created !!!\x1b[0m Connection Config ID: ${config.id} `
+    );
   }
 
-  public static getInstance(): PgDbConnection {
-    if (!PgDbConnection.instance) {
-      PgDbConnection.instance = new PgDbConnection();
+  public static getInstance(config: any): PgDbConnection {
+    if (!PgDbConnection.instances.has(config.id)) {
+      PgDbConnection.instances.set(config.id, new PgDbConnection(config));
     }
-    return PgDbConnection.instance;
+    return PgDbConnection.instances.get(config.id)!;
   }
 
   public async pgQuery(text: string): Promise<any> {
@@ -42,7 +31,19 @@ class PgDbConnection {
 }
 
 export class PgAdapterRepository implements dbAdapterRepository {
-  query(query: string): Promise<any> {
-    return PgDbConnection.getInstance().pgQuery(query);
+  query(query: string, config: any): Promise<any> {
+    const clientDbConfig = {
+      id: config.id,
+      type: config.type,
+      host: config.host,
+      port: config.port,
+      user: config.user,
+      password: config.password,
+      database: config.database,
+      max: 20,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 2000,
+    };
+    return PgDbConnection.getInstance(clientDbConfig).pgQuery(query);
   }
 }
