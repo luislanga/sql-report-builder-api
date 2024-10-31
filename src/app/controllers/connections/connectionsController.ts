@@ -1,14 +1,10 @@
 import { Request, Response } from "express";
 import { makePGQueryDbUsecase } from "../../useCases/factories/makeDbUseCase";
 import { makeGetConnectionConfigsUseCase } from "../../../core/useCases/factories/makeGetConnectionConfigsUseCase";
+import { QueryResult } from "../../../types/queryResult";
 
 interface QueryField {
   name: string;
-}
-
-interface QueryResult {
-  fields: QueryField[];
-  rows: any[];
 }
 
 export async function queryDb(req: Request, res: Response): Promise<Response> {
@@ -31,9 +27,9 @@ export async function queryDb(req: Request, res: Response): Promise<Response> {
     type: connection.type,
     host: connection.host,
     port: connection.port,
-    database: connection.database,
     user: connection.user,
     password: connection.password,
+    database: connection.database,
   };
 
   try {

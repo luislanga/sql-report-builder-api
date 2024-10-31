@@ -3,7 +3,7 @@ import { connectionConfigsRepository } from "../repositories/connectionConfigsRe
 
 type DatabaseType = "postgres" | "mysql" | "oracle";
 interface CreateConnectionConfigUseCaseRequest {
-  type: string;
+  type: DatabaseType;
   host?: string;
   port: number;
   user: string;

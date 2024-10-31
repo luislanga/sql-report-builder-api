@@ -10,8 +10,8 @@ export class GetConnectionConfigsUseCase {
     private getConnectionConfigsRepository: connectionConfigsRepository
   ) {}
 
-  async execute(id: any): Promise<GetConnectionConfigsUseCaseResponse> {
-    const connection = await this.getConnectionConfigsRepository.findById(id);
+  async execute(dbId: number): Promise<GetConnectionConfigsUseCaseResponse> {
+    const connection = await this.getConnectionConfigsRepository.findById(dbId);
 
     return { connection };
   }

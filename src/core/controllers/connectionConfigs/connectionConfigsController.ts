@@ -12,7 +12,7 @@ export async function createConnectionConfig(
         id: req.user?.id,
       },
     };
-    const {type, host, port, user, password, database} = req.body
+    const { type, host, port, user, password, database } = req.body;
     const clientDbConfig = {
       type,
       host,
@@ -32,10 +32,18 @@ export async function createConnectionConfig(
   }
 }
 
-export async function getConnectionConfigs(req: Request, res: Response): Promise<Response> {
+export async function getConnectionConfigs(
+  req: Request,
+  res: Response
+): Promise<Response> {
   try {
     const connectionConfigsRepository = makeGetConnectionConfigsUseCase();
-    const connections = await connectionConfigsRepository.execute(req.user?.id);
+
+    if (!req.user) {
+      return res.status(401).json({ message: "Usuário não encontrado" });
+    }
+
+    const connections = await connectionConfigsRepository.execute(req.user.id);
     return res.status(200).json(connections);
   } catch (error) {
     throw new Error("Algo deu errado");
